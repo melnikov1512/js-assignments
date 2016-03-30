@@ -225,7 +225,17 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-    throw new Error('Not implemented');
+    var newStr = '';
+    var codeOfSymbol;
+    for(var i = 0; i<str.length;i++)
+    {
+        codeOfSymbol = str.charCodeAt(i);
+        (codeOfSymbol<=77 && codeOfSymbol>=65)||(codeOfSymbol>=97 && codeOfSymbol<=109)?codeOfSymbol+=13:
+        (codeOfSymbol>=78 && codeOfSymbol<=90)||(codeOfSymbol>=110 && codeOfSymbol<=122)?codeOfSymbol-=13:
+        codeOfSymbol;
+        newStr+=String.fromCharCode(codeOfSymbol);
+    }
+    return newStr;
 }
 
 /**
@@ -271,7 +281,7 @@ function isString(value) {
  *   'K♠' => 51
  */
 function getCardId(value) {
-    throw new Error('Not implemented');
+    return (Number)("A234567891JQK".indexOf(value[0])) + (Number)("♣♦♥♠".indexOf(value[value.length-1]))*13;
 }
 
 
