@@ -30,7 +30,13 @@
  *
  */
 function getFizzBuzz(num) {
-    throw new Error('Not implemented');
+    if (num % 15 === 0)
+        return 'FizzBuzz'
+    if (num % 3 === 0)
+        return 'Fizz'
+    if (num % 5 === 0)
+        return 'Buzz'
+    return num
 }
 
 
@@ -46,7 +52,7 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-    throw new Error('Not implemented');
+    return n > 1 ? getFactorial(n - 1) * n : n
 }
 
 
@@ -63,7 +69,7 @@ function getFactorial(n) {
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
 function getSumBetweenNumbers(n1, n2) {
-    throw new Error('Not implemented');
+    return (n1 + n2) * (n2 - n1 + 1) / 2
 }
 
 
@@ -81,8 +87,8 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(a,b,c) {
-    throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+    return (a + b > c) && (a + c > b) && (b + c > a)
 }
 
 
@@ -119,7 +125,7 @@ function isTriangle(a,b,c) {
  *  
  */
 function doRectanglesOverlap(rect1, rect2) {
-    throw new Error('Not implemented');
+    return rect1.top + rect1.height > rect2.top && rect1.left + rect1.width > rect2.left
 }
 
 
@@ -150,7 +156,7 @@ function doRectanglesOverlap(rect1, rect2) {
  *   
  */
 function isInsideCircle(circle, point) {
-    throw new Error('Not implemented');
+    return (Math.pow(point.x - circle.center.x, 2) + Math.pow(point.y - circle.center.y, 2) < Math.pow(circle.radius, 2))
 }
 
 
@@ -166,7 +172,7 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    throw new Error('Not implemented');
+    return str.split('').filter(el => str.indexOf(el) === str.lastIndexOf(el))[0]
 }
 
 
@@ -192,7 +198,7 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    throw new Error('Not implemented');
+    return `${isStartIncluded ? '[' : '('}${a < b ? a : b}, ${a > b ? a : b}${isEndIncluded ? ']' : ')'}`
 }
 
 
@@ -209,7 +215,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-    throw new Error('Not implemented');
+    return str.split('').reverse().join('')
 }
 
 
@@ -226,7 +232,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    throw new Error('Not implemented');
+    return +num.toString().split('').reverse().join('')
 }
 
 
@@ -270,7 +276,12 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+    let sum = num
+    while (sum > 9) {
+        sum = sum.toString().split('')
+            .reduce((prev, curr) => +prev + (+curr))
+    }
+    return sum
 }
 
 
@@ -296,7 +307,21 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true 
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
+    let len = str.length,
+        stack = [],
+        open = ['[', '(', '{', '<'],
+        close = [']', ')', '}', '>']
+
+    if (len % 2 != 0)
+        return false
+
+    for (let i = 0; i < len; i++) {
+        if (open.indexOf(str[i]) > -1)
+            stack.push(open.indexOf(str[i]))
+        else if (close[stack.pop()] != str[i])
+            return false
+    }
+    return true
 }
 
 
@@ -332,7 +357,25 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    throw new Error('Not implemented');
+    let time = (endDate.getTime() - startDate.getTime())
+    const second = 1000
+    const min = 60 * second
+    const hour = 60 * min
+    const day = 24 * hour
+    const month = 30 * day
+    const year = 365 * day
+
+    if (time <= 45 * second) return 'a few seconds ago'
+    if (time <= 90 * second) return 'a minute ago'
+    if (time <= 45 * min) return `${Math.round((time - 1) / min)} minutes ago`
+    if (time <= 90 * min) return 'an hour ago'
+    if (time <= 22 * hour) return `${Math.round((time - 1) / hour)} hours ago`
+    if (time <= 36 * hour) return 'a day ago'
+    if (time <= 25 * day) return `${Math.round((time - 1) / day)} days ago`
+    if (time <= 45 * day) return 'a month ago'
+    if (time <= 345 * day) return `${Math.round((time - 1) / month)} months ago`
+    if (time <= 545 * day) return 'a year ago'
+    return `${Math.round((time - 1) / year)} years ago`
 }
 
 
@@ -443,15 +486,15 @@ module.exports = {
     doRectanglesOverlap: doRectanglesOverlap,
     isInsideCircle: isInsideCircle,
     findFirstSingleChar: findFirstSingleChar,
-    getIntervalString : getIntervalString,
+    getIntervalString: getIntervalString,
     reverseString: reverseString,
     reverseInteger: reverseInteger,
     isCreditCardNumber: isCreditCardNumber,
     getDigitalRoot: getDigitalRoot,
     isBracketsBalanced: isBracketsBalanced,
-    timespanToHumanString : timespanToHumanString,
+    timespanToHumanString: timespanToHumanString,
     toNaryString: toNaryString,
     getCommonDirectoryPath: getCommonDirectoryPath,
     getMatrixProduct: getMatrixProduct,
-    evaluateTicTacToePosition : evaluateTicTacToePosition
+    evaluateTicTacToePosition: evaluateTicTacToePosition
 };
